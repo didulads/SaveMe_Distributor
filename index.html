@@ -1,0 +1,270 @@
+<html lang="en"><head>
+<meta charset="UTF-8">
+<link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico">
+<link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111">
+<title>Save Me</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&amp;display=swap">
+<script>window.$ = window.jQuery = require('./jquery.js');</script>
+<style>
+      /* Fonts */
+/* Colors */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #ecf0f1;
+  height: 100vh;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 1.125rem;
+}
+
+.icon::before {
+  content: '';
+  display: inline-block;
+  min-height: 25px;
+  min-width: 24px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+.icon-add::before {
+  background-image: url("data:image/svg+xml,%3Csvg aria-hidden='true' focusable='false' data-prefix='fas' data-icon='plus' class='svg-inline--fa fa-plus fa-w-14' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath fill='%23fff' d='M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z'%3E%3C/path%3E%3C/svg%3E");
+}
+
+.listing-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.listing-container .inputs-container {
+  width: 100%;
+  max-width: 400px;
+  list-style: none;
+}
+.listing-container .inputs-container > li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: .5rem 1rem;
+  min-height: 20px;
+  background: #4e4e4e98;
+  background: linear-gradient(to right, #4a4a4a5a 0%, #4a4a4a5a 100%);
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+.listing-container .inputs-container > li + li {
+  margin-top: 0.2rem;
+}
+.listing-container .inputs-container > li > input {
+  width: 100%;
+  padding: .5rem;
+  background: transparent;
+  border: 1px solid transparent;
+  border-left-width: 2px;
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+  transition: .3s ease;
+  animation: editInput 1s infinite;
+}
+.listing-container .inputs-container > li > input:-ms-input-placeholder {
+  transition: .3s ease;
+  font-weight: 400;
+  color: white;
+}
+.listing-container .inputs-container > li > input::-webkit-input-placeholder {
+  transition: .3s ease;
+  font-weight: 400;
+  color: white;
+}
+.listing-container .inputs-container > li > input::placeholder {
+  transition: .3s ease;
+  font-weight: 400;
+  color: white;
+  opacity: 1;
+}
+.listing-container .inputs-container > li > input:focus:-ms-input-placeholder {
+  color: black;
+}
+.listing-container .inputs-container > li > input:focus::-webkit-input-placeholder {
+  color: black;
+}
+.listing-container .inputs-container > li > input:focus::placeholder {
+  color: black;
+}
+.listing-container .inputs-container > li > input:hover {
+  border-bottom-color: rgba(255, 255, 255, 0.5);
+}
+.listing-container .inputs-container > li > input:focus {
+  outline: none;
+  animation: none;
+  border-bottom-color: rgba(255, 255, 255, 0.5);
+}
+.listing-container .inputs-container > li.js-add-sauce {
+  background: transparent;
+  box-shadow: none;
+  justify-content: flex-start;
+  padding: .5rem;
+  min-height: 0;
+}
+.listing-container .inputs-container > li.js-add-sauce > a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background: #ee790f;
+  background: linear-gradient(to right, #ee790f 0%, #eb525a 100%);
+  border-radius: 100%;
+  font-size: 0;
+  transition: .3s ease;
+}
+.listing-container .inputs-container > li.js-add-sauce > a .icon {
+  transition: 0.3s ease;
+}
+.listing-container .inputs-container > li.js-add-sauce > a:hover, .listing-container .inputs-container > li.js-add-sauce > a:focus {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+.listing-container .inputs-container > li.js-add-sauce > a:hover .icon, .listing-container .inputs-container > li.js-add-sauce > a:focus .icon {
+  transform: rotate(90deg) scale(1.2);
+}
+
+@keyframes editInput {
+  0% {
+    border-left-color: transparent;
+  }
+  50% {
+    border-left-color: white;
+  }
+  100% {
+    border-left-color: transparent;
+  }
+}
+@keyframes bounceError {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+    </style>
+<script>
+  window.console = window.console || function(t) {};
+</script>
+<script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+</head>
+<body translate="no">
+<div class="listing-container">
+
+<h1 id="t_coins">Coins : 0</h1>
+
+<ul class="inputs-container">
+<li style="animation: 0s ease 0s 1 normal none running none;">
+<input type="text" placeholder="Item Barcode" class="js-sauce-name" id="barcode_field">
+</li>
+<li class="js-add-sauce" style="text-align: center;">
+<a href="#addSauce"><i class="icon icon-add"></i></a>
+</li>
+</ul>
+<ul class="inputs-container" id="selected_list">
+</ul>
+</div>
+<script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-de7e2ef6bfefd24b79a3f68b414b87b8db5b08439cac3f1012092b2290c719cd.js"></script>
+<script id="rendered-js">
+      const addSauceButton = document.querySelector('.js-add-sauce > a');
+let inputs = document.querySelectorAll('.js-sauce-name'),
+lastInput = inputs[inputs.length - 1];
+
+
+addSauceButton.onclick = event => {
+  event.preventDefault();
+  complete_addition();
+};
+
+$('#barcode_field').keypress(function(event){
+  var keycode = (event.keyCode ? event.keyCode : event.which);
+  if(keycode == '13'){
+    request_details();
+  }
+});
+
+var coins = 0;
+var items = [];
+
+function request_details(){
+  var barcode = $('#barcode_field').val();
+  $.ajax({
+    url: "https://savemeapp.000webhostapp.com/Transactions/barcode_checker.php",
+    type: "POST",
+    data: {item: barcode},
+    success: function(res){
+      if(res === "0"){
+        alert("Invalid Offer");
+      } else {
+        console.log(res);
+        var node = document.createElement("LI");
+        var label = document.createElement("label");
+        var jsn = JSON.parse(res);
+        label.innerHTML = jsn.itemName+" -> "+jsn.amount;
+
+        coins = coins + parseFloat(jsn.amount);
+
+        items.push(barcode);
+
+        $('#t_coins').html("Coins : "+coins);
+
+        node.appendChild(label);
+        document.getElementById("selected_list").appendChild(node);
+      }
+    }
+  });
+  $('#barcode_field').val('');
+}
+
+function complete_addition(){
+  $.ajax({
+    url: "https://savemeapp.000webhostapp.com/Transactions/addcoins.php",
+    type: "POST",
+    data: {items: JSON.stringify(items), user: localStorage.getItem("gamer")},
+    success: function(res){
+      console.log(res);
+      if(res){
+        console.log("Success");
+        location.href = "./home/index.html";
+      } else {
+        console.log("Failed");
+        alert("Error Occurred");
+      }
+    }
+  });
+}
+
+const bounceEmptyInput = childEl => {
+  childEl.parentNode.style.animation = "bounceError .8s ease";
+  setTimeout(() => {childEl.parentNode.style.animation = "none";}, 850);
+};
+
+// TODO
+// Checker chaque input s'ils ne sont pas vide
+//
+      //# sourceURL=pen.js
+    </script>
+
+</body></html>
