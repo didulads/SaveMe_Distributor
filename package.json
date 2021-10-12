@@ -10,7 +10,7 @@
   "author": "Didula",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^5.0.6"
+    "electron": "^11.5.0"
   },
   "dependencies": {
     "electron-prompt": "^1.3.1",
